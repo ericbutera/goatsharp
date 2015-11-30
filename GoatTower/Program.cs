@@ -40,18 +40,21 @@ namespace GoatTower
             gGameMode = new StateMachine();
 
             // A state for each game mode
-            gGameMode.Add("randomize", new RandomizeGameState(gGameMode));
-            //gGameMode.Add("mainmenu",   new MainMenuState(gGameMode));
-            //gGameMode.Add("localmap",   new LocalMapState(gGameMode));
-            //gGameMode.Add("worldmap",   new WorldMapState(gGameMode));
-            gGameMode.Add("battle",     new BattleState(/*gGameMode*/));
-            //gGameMode.Add("ingamemenu", new InGameMenuState(gGameMode));
+            gGameMode.Add(States.MainMenu, new MainMenuState(gGameMode))
+                .Add(States.Battle, new BattleState(gGameMode));
+            //.Add("localmap",   new LocalMapState(gGameMode))
+            //.Add("worldmap",   new WorldMapState(gGameMode))
+            //.Add("ingamemenu", new InGameMenuState(gGameMode))
 
-            gGameMode.Change("mainmenu");
+            gGameMode.Change(States.MainMenu);
+            while (true)
+            {
+                Update();
+            }
         }
 
         // Main Game Update Loop
-        public void Update()
+        public static void Update()
         {
             float elapsedTime = frame++; //GetElapsedFrameTime();
             gGameMode.Update(elapsedTime);
